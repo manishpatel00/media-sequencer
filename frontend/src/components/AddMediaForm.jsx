@@ -24,11 +24,36 @@ export default function AddMediaForm({ windows, onAdd }) {
       setError('Duration must be a positive number of seconds.')
       return
     }
+    let finalUrl = type === 'blank' ? '' : url.trim()
+
+    if (type === 'video') {
+      const isYt = finalUrl.includes('youtube.com') || finalUrl.includes('youtu.be')
+      const isVimeo = finalUrl.includes('vimeo.com')
+      
+      if (isYt) {
+        const ytMatch = finalUrl.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i)
+        if (ytMatch && ytMatch[1]) {
+          finalUrl = `https://www.youtube-nocookie.com/embed/${ytMatch[1]}?autoplay=1&mute=1&loop=1&playlist=${ytMatch[1]}`
+        } else {
+          setError('Paste a direct video file link, or a normal youtube.com/watch or youtu.be link')
+          return
+        }
+      } else if (isVimeo) {
+        const vimeoMatch = finalUrl.match(/(?:vimeo\.com\/|player\.vimeo\.com\/video\/)([0-9]+)/i)
+        if (vimeoMatch && vimeoMatch[1]) {
+          finalUrl = `https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1&muted=1&loop=1&autopause=0`
+        } else {
+          setError('Paste a direct video file link, or a normal vimeo.com link')
+          return
+        }
+      }
+    }
+
     setBusy(true)
     try {
       await onAdd(windowId, {
         type,
-        url: type === 'blank' ? '' : url.trim(),
+        url: finalUrl,
         duration_seconds: Number(duration),
       })
       setUrl('')
