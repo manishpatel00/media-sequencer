@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/evabharat/media-sequencer/backend/internal/models"
+	"github.com/manishpatel00/media-sequencer/backend/internal/models"
 )
 
 // Sentinel errors. Handlers in internal/api map these to HTTP status codes,

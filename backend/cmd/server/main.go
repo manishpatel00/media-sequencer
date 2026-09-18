@@ -13,13 +13,13 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/evabharat/media-sequencer/backend/internal/api"
-	"github.com/evabharat/media-sequencer/backend/internal/config"
-	"github.com/evabharat/media-sequencer/backend/internal/db"
-	"github.com/evabharat/media-sequencer/backend/internal/seed"
-	"github.com/evabharat/media-sequencer/backend/internal/store"
-	"github.com/evabharat/media-sequencer/backend/internal/syncmgr"
-	"github.com/evabharat/media-sequencer/backend/internal/wsHub"
+	"github.com/manishpatel00/media-sequencer/backend/internal/api"
+	"github.com/manishpatel00/media-sequencer/backend/internal/config"
+	"github.com/manishpatel00/media-sequencer/backend/internal/db"
+	"github.com/manishpatel00/media-sequencer/backend/internal/seed"
+	"github.com/manishpatel00/media-sequencer/backend/internal/store"
+	"github.com/manishpatel00/media-sequencer/backend/internal/syncmgr"
+	"github.com/manishpatel00/media-sequencer/backend/internal/wsHub"
 )
 
 func main() {

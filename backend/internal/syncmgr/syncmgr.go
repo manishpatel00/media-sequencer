@@ -22,8 +22,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/evabharat/media-sequencer/backend/internal/models"
-	"github.com/evabharat/media-sequencer/backend/internal/wsHub"
+	"github.com/manishpatel00/media-sequencer/backend/internal/models"
+	"github.com/manishpatel00/media-sequencer/backend/internal/wsHub"
 )
 
 // State describes an in-progress or scheduled sync.

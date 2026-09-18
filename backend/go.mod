@@ -1,4 +1,4 @@
-module github.com/evabharat/media-sequencer/backend
+module github.com/manishpatel00/media-sequencer/backend
 
 go 1.22
 

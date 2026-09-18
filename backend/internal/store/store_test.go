@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/evabharat/media-sequencer/backend/internal/db"
-	"github.com/evabharat/media-sequencer/backend/internal/models"
+	"github.com/manishpatel00/media-sequencer/backend/internal/db"
+	"github.com/manishpatel00/media-sequencer/backend/internal/models"
 )
 
 func newTestStore(t *testing.T) *Store {

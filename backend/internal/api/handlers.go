@@ -13,12 +13,12 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/evabharat/media-sequencer/backend/internal/config"
-	"github.com/evabharat/media-sequencer/backend/internal/models"
-	"github.com/evabharat/media-sequencer/backend/internal/sequencer"
-	"github.com/evabharat/media-sequencer/backend/internal/store"
-	"github.com/evabharat/media-sequencer/backend/internal/syncmgr"
-	"github.com/evabharat/media-sequencer/backend/internal/wsHub"
+	"github.com/manishpatel00/media-sequencer/backend/internal/config"
+	"github.com/manishpatel00/media-sequencer/backend/internal/models"
+	"github.com/manishpatel00/media-sequencer/backend/internal/sequencer"
+	"github.com/manishpatel00/media-sequencer/backend/internal/store"
+	"github.com/manishpatel00/media-sequencer/backend/internal/syncmgr"
+	"github.com/manishpatel00/media-sequencer/backend/internal/wsHub"
 )
 
 type API struct {

@@ -15,8 +15,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/evabharat/media-sequencer/backend/internal/models"
-	"github.com/evabharat/media-sequencer/backend/internal/store"
+	"github.com/manishpatel00/media-sequencer/backend/internal/models"
+	"github.com/manishpatel00/media-sequencer/backend/internal/store"
 )
 
 // Run seeds three demo windows (W1, W2, W3) if, and only if, no windows
