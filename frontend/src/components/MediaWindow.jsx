@@ -95,7 +95,7 @@ function MediaStage({ item }) {
     return <div className="stage stage--blank">No playable media</div>
   }
   if (item.type === 'blank') {
-    return <div className="stage stage--blank">— blank —</div>
+    return <div className="stage stage--blank">(blank)</div>
   }
   if (item.type === 'image') {
     return (

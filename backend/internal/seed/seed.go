@@ -44,7 +44,7 @@ func Run(st *store.Store) error {
 		Media    []seedMedia
 	}{
 		{
-			ID: "W1", Name: "Window 1 — Lobby Display",
+			ID: "W1", Name: "Window 1: Lobby Display",
 			Media: []seedMedia{
 				{models.MediaImage, "https://picsum.photos/id/1015/1280/720", 8},
 				{models.MediaVideo, "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", 30},
@@ -52,7 +52,7 @@ func Run(st *store.Store) error {
 			},
 		},
 		{
-			ID: "W2", Name: "Window 2 — Storefront",
+			ID: "W2", Name: "Window 2: Storefront",
 			Media: []seedMedia{
 				{models.MediaImage, "https://picsum.photos/id/1043/1280/720", 10},
 				{models.MediaImage, "https://picsum.photos/id/1050/1280/720", 10},
@@ -61,7 +61,7 @@ func Run(st *store.Store) error {
 			},
 		},
 		{
-			ID: "W3", Name: "Window 3 — Reception",
+			ID: "W3", Name: "Window 3: Reception",
 			Media: []seedMedia{
 				{models.MediaVideo, "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", 15},
 				{models.MediaImage, "https://picsum.photos/id/1069/1280/720", 8},

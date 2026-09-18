@@ -48,7 +48,7 @@ export default function AddMediaForm({ windows, onAdd }) {
           <select value={windowId} onChange={(e) => setWindowId(e.target.value)}>
             {windows.map((w) => (
               <option key={w.window.id} value={w.window.id}>
-                {w.window.id} — {w.window.name}
+                {w.window.id}: {w.window.name}
               </option>
             ))}
           </select>

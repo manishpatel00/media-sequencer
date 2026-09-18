@@ -127,16 +127,25 @@ export default function App() {
 
   return (
     <div className="app">
-      <header className="app__header">
-        <div>
-          <h1>⚡ Multi-Window Media Sequencer</h1>
-          <p className="app__subtitle">
-            Each window loops its own 5-hour playlist independently. Trigger a sync to show
-            one item across every window at once.
-          </p>
+      <header className="app__header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '24px 0', borderBottom: '1px solid #27272a', marginBottom: '32px' }}>
+        <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+          <div style={{ background: 'linear-gradient(135deg, #6366f1, #a855f7)', padding: '12px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)' }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+          </div>
+          <div>
+            <h1 style={{ margin: '0 0 8px 0', fontSize: '1.75rem', fontWeight: '700', letterSpacing: '-0.025em', color: '#fafafa' }}>Multi-Window Media Sequencer</h1>
+            <p className="app__subtitle" style={{ margin: 0, color: '#a1a1aa', fontSize: '0.95rem', maxWidth: '600px', lineHeight: '1.5' }}>
+              Each window loops its own 5-hour playlist independently. Trigger a sync to show
+              one item across every window at once.
+            </p>
+          </div>
         </div>
-        <span className={`status-pill status-pill--${connectionStatus}`}>
-          {connectionStatus === 'connected' ? 'live' : 'connecting…'}
+        <span className={`status-pill status-pill--${connectionStatus}`} style={{ marginTop: '8px' }}>
+          {connectionStatus === 'connected' ? 'Live System' : 'Connecting…'}
         </span>
       </header>
 
@@ -162,8 +171,33 @@ export default function App() {
         )}
       </section>
 
-      <footer className="app__footer">
-        <span>Backend: {import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'}</span>
+      <footer className="app__footer" style={{ marginTop: '48px', paddingTop: '24px', borderTop: '1px solid #27272a', display: 'flex', justifyContent: 'center' }}>
+        <a 
+          href={import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'} 
+          target="_blank" 
+          rel="noreferrer"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '8px 16px',
+            backgroundColor: '#18181b',
+            border: '1px solid #3f3f46',
+            borderRadius: '999px',
+            color: '#a1a1aa',
+            textDecoration: 'none',
+            fontSize: '0.875rem',
+            transition: 'all 0.2s',
+          }}
+          onMouseOver={(e) => { e.currentTarget.style.borderColor = '#6366f1'; e.currentTarget.style.color = '#fafafa' }}
+          onMouseOut={(e) => { e.currentTarget.style.borderColor = '#3f3f46'; e.currentTarget.style.color = '#a1a1aa' }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M5 12h14"></path>
+            <path d="M12 5v14"></path>
+          </svg>
+          Backend API Node: {import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'}
+        </a>
       </footer>
     </div>
   )
