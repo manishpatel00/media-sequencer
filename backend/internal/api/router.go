@@ -56,11 +56,11 @@ func (a *API) NewRouter() http.Handler {
 	mux.HandleFunc("GET /api/windows", a.ListWindows)
 	mux.HandleFunc("GET /api/windows/{id}", a.GetWindow)
 	mux.HandleFunc("GET /api/windows/{id}/now-playing", a.NowPlaying)
-	mux.HandleFunc("POST /api/windows/{id}/media", a.AddMedia)
-	mux.HandleFunc("DELETE /api/windows/{id}/media/{mediaId}", a.DeleteMedia)
-	mux.HandleFunc("PUT /api/windows/{id}/media/reorder", a.ReorderMedia)
+	mux.HandleFunc("POST /api/windows/{id}/media", a.withAdminAuth(a.AddMedia))
+	mux.HandleFunc("DELETE /api/windows/{id}/media/{mediaId}", a.withAdminAuth(a.DeleteMedia))
+	mux.HandleFunc("PUT /api/windows/{id}/media/reorder", a.withAdminAuth(a.ReorderMedia))
 
-	mux.HandleFunc("POST /api/sync", a.TriggerSync)
+	mux.HandleFunc("POST /api/sync", a.withAdminAuth(a.TriggerSync))
 	mux.HandleFunc("GET /api/sync/status", a.SyncStatus)
 
 	mux.HandleFunc("GET /ws", a.WS)
@@ -70,6 +70,19 @@ func (a *API) NewRouter() http.Handler {
 
 func (a *API) withMiddleware(h http.Handler) http.Handler {
 	return withLogging(a.withCORS(h))
+}
+
+func (a *API) withAdminAuth(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if a.cfg.AdminToken != "" {
+			token := r.Header.Get("X-Admin-Token")
+			if token != a.cfg.AdminToken {
+				writeJSON(w, http.StatusUnauthorized, map[string]string{"error": "unauthorized"})
+				return
+			}
+		}
+		next(w, r)
+	}
 }
 
 // withCORS allows the frontend (deployed on a different origin) to call

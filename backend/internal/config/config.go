@@ -30,6 +30,8 @@ type Config struct {
 	// DefaultSyncDurationSeconds is used when a sync request does not
 	// specify how long the synced item should stay on screen.
 	DefaultSyncDurationSeconds int
+	// AdminToken is a shared secret for protecting mutating endpoints.
+	AdminToken string
 }
 
 func Load() Config {
@@ -40,6 +42,7 @@ func Load() Config {
 		SeedOnEmpty:                getBoolEnv("SEED_ON_EMPTY", true),
 		SyncLeadSeconds:            getIntEnv("SYNC_LEAD_SECONDS", 2),
 		DefaultSyncDurationSeconds: getIntEnv("DEFAULT_SYNC_DURATION_SECONDS", 10),
+		AdminToken:                 getEnv("ADMIN_TOKEN", ""),
 	}
 }
 

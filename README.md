@@ -280,11 +280,13 @@ window is untouchable through another window's endpoints.
 | `SEED_ON_EMPTY` | `true` | Insert demo windows/media on first run |
 | `SYNC_LEAD_SECONDS` | `2` | Delay before a triggered sync actually starts |
 | `DEFAULT_SYNC_DURATION_SECONDS` | `10` | Fallback sync duration if not specified per-request |
+| `ADMIN_TOKEN` | (unset) | Shared secret required as `X-Admin-Token` on POST/PUT/DELETE |
 
 ### Frontend (env vars, see `frontend/.env.example`)
 | Variable | Default | Purpose |
 |---|---|---|
 | `VITE_API_BASE_URL` | `http://localhost:8080` | Backend base URL (WebSocket URL is derived from it) |
+| `VITE_ADMIN_TOKEN` | (unset) | Token sent as `X-Admin-Token` to authenticate mutating requests |
 
 Vite env vars are **compile-time**: for a Docker image, pass
 `--build-arg VITE_API_BASE_URL=...`; for most static hosts, set it as a

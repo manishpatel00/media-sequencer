@@ -6,9 +6,15 @@ const API_BASE = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080').
 const WS_BASE = API_BASE.replace(/^http/, 'ws')
 
 async function request(path, options = {}) {
+  const headers = { 'Content-Type': 'application/json', ...options.headers }
+  const token = import.meta.env.VITE_ADMIN_TOKEN
+  if (token && options.method && options.method !== 'GET') {
+    headers['X-Admin-Token'] = token
+  }
+
   const res = await fetch(`${API_BASE}${path}`, {
-    headers: { 'Content-Type': 'application/json' },
     ...options,
+    headers,
   })
   if (!res.ok) {
     let message = `${res.status} ${res.statusText}`
