@@ -1,0 +1,32 @@
+# Render Blueprint — lets Render provision the backend automatically from
+# this file (Dashboard → New → Blueprint, point it at this repo) instead of
+# clicking through the web service form manually.
+#
+# ALLOWED_ORIGIN is intentionally left for manual entry (sync: false) since
+# it depends on the frontend's URL, which doesn't exist until after the
+# frontend is deployed — see README.md's Deployment section for the order
+# of operations.
+services:
+  - type: web
+    name: media-sequencer-backend
+    runtime: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    disk:
+      name: media-sequencer-data
+      mountPath: /app/data
+      sizeGB: 1
+    envVars:
+      - key: PORT
+        value: "8080"
+      - key: DB_PATH
+        value: /app/data/sequencer.db
+      - key: ALLOWED_ORIGIN
+        sync: false
+      - key: SEED_ON_EMPTY
+        value: "true"
+      - key: SYNC_LEAD_SECONDS
+        value: "2"
+      - key: DEFAULT_SYNC_DURATION_SECONDS
+        value: "10"
