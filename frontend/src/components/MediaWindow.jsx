@@ -46,7 +46,7 @@ export default function MediaWindow({ win, serverOffsetMs, syncState, onRemoveMe
   return (
     <section className="window-card">
       <header className="window-card__header">
-        <div>
+        <div className="window-card__header-left">
           <h2>{win.window.name}</h2>
           <span className="window-card__id">{win.window.id}</span>
         </div>
@@ -55,7 +55,7 @@ export default function MediaWindow({ win, serverOffsetMs, syncState, onRemoveMe
         ) : (
           current && (
             <span className="badge">
-              item {current.index + 1}/{win.playlist.length} · next in {formatSeconds(current.remainingMs)}
+              {current.index + 1}/{win.playlist.length} &middot; {formatSeconds(current.remainingMs)}
             </span>
           )
         )}
@@ -65,27 +65,29 @@ export default function MediaWindow({ win, serverOffsetMs, syncState, onRemoveMe
         <MediaStage item={displayItem} />
       </div>
 
-      <ul className="window-card__playlist">
-        {win.playlist.length === 0 && <li className="muted">No media configured yet.</li>}
-        {win.playlist.map((m, idx) => (
-          <li key={m.id} className={current?.item?.id === m.id && !isSyncing ? 'is-active' : ''}>
-            <span className="playlist-index">{idx + 1}</span>
-            <span className="playlist-type">{m.type}</span>
-            <span className="playlist-url" title={m.url}>
-              {m.type === 'blank' ? '(blank)' : m.url}
-            </span>
-            <span className="playlist-duration">{m.duration_seconds}s</span>
-            <button
-              type="button"
-              className="icon-btn"
-              aria-label={`Remove item ${idx + 1}`}
-              onClick={() => onRemoveMedia(win.window.id, m.id)}
-            >
-              ✕
-            </button>
-          </li>
-        ))}
-      </ul>
+      <div className="window-card__playlist-wrap">
+        <ul className="window-card__playlist">
+          {win.playlist.length === 0 && <li className="muted">No media configured yet.</li>}
+          {win.playlist.map((m, idx) => (
+            <li key={m.id} className={current?.item?.id === m.id && !isSyncing ? 'is-active' : ''}>
+              <span className="playlist-index">{idx + 1}</span>
+              <span className="playlist-type">{m.type}</span>
+              <span className="playlist-url" title={m.url}>
+                {m.type === 'blank' ? '(blank)' : m.url}
+              </span>
+              <span className="playlist-duration">{m.duration_seconds}s</span>
+              <button
+                type="button"
+                className="icon-btn"
+                aria-label={`Remove item ${idx + 1}`}
+                onClick={() => onRemoveMedia(win.window.id, m.id)}
+              >
+                ✕
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   )
 }

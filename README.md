@@ -1,16 +1,18 @@
-# Multi-Window Media Sequencer with Sync Playback
+# Multi-Window Media Sequencer
+
+> **Live Demo:** [frontend-drab-nine-hyk0lvk13g.vercel.app](https://frontend-drab-nine-hyk0lvk13g.vercel.app) &nbsp;|&nbsp; **Backend API:** [media-sequencer-backend-b80d.onrender.com](https://media-sequencer-backend-b80d.onrender.com)
+
+[![Frontend — Vercel](https://img.shields.io/badge/Frontend-Vercel-black?logo=vercel)](https://frontend-drab-nine-hyk0lvk13g.vercel.app)
+[![Backend — Render](https://img.shields.io/badge/Backend-Render-46E3B7?logo=render&logoColor=black)](https://media-sequencer-backend-b80d.onrender.com)
 
 A full-stack app where multiple display windows continuously loop their own
 media playlists, support dynamic playlist edits, and can be **synced** so
 every window shows one chosen item at the same moment before resuming their
 own sequences.
 
-- **Backend:** Go (standard library `net/http` with Go 1.22 route patterns),
-  SQLite (`mattn/go-sqlite3`) for persistence, `gorilla/websocket` for
-  real-time push.
-- **Frontend:** React (Vite).
-- **Storage:** SQLite file on disk (see [Assumptions](#assumptions--tradeoffs)
-  for why).
+- **Backend:** Go (standard library `net/http` with Go 1.22 route patterns), SQLite (`mattn/go-sqlite3`) for persistence, `gorilla/websocket` for real-time push.
+- **Frontend:** React (Vite), deployed on Vercel.
+- **Storage:** SQLite file on disk (see [Assumptions](#assumptions--tradeoffs) for why).
 
 ```
 media-sequencer/
@@ -20,6 +22,7 @@ media-sequencer/
 ```
 
 ---
+
 
 ## Contents
 - [Quick start](#quick-start)

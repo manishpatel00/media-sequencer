@@ -128,19 +128,21 @@ export default function App() {
 
   return (
     <div className="app">
-      <header className="app__header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '24px 0', borderBottom: '1px solid #27272a', marginBottom: '32px' }}>
-        <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-          <Logo size={40} />
+      <header className="app__header">
+        <div className="app__header-left">
+          <Logo size={38} />
           <div>
-            <h1 style={{ margin: '0 0 8px 0', fontSize: '1.75rem', fontWeight: '700', letterSpacing: '-0.025em', color: '#fafafa' }}>Multi-Window Media Sequencer</h1>
-            <p className="app__subtitle" style={{ margin: 0, color: '#a1a1aa', fontSize: '0.95rem', maxWidth: '600px', lineHeight: '1.5' }}>
-              Each window loops its 5-hour playlist. Trigger a sync to override all screens instantly.
+            <h1>Multi-Window Media Sequencer</h1>
+            <p className="app__subtitle">
+              Each window loops its own 5-hour playlist. Trigger a sync to override all screens at once.
             </p>
           </div>
         </div>
-        <span className={`status-pill status-pill--${connectionStatus}`} style={{ marginTop: '8px' }}>
-          {connectionStatus === 'connected' ? 'Connected' : 'Reconnecting…'}
-        </span>
+        <div className="app__header-right">
+          <span className={`status-pill status-pill--${connectionStatus}`}>
+            {connectionStatus === 'connected' ? 'Connected' : 'Reconnecting…'}
+          </span>
+        </div>
       </header>
 
       {error && <div className="alert">{error}</div>}
@@ -165,10 +167,8 @@ export default function App() {
         )}
       </section>
 
-      <footer className="app__footer" style={{ marginTop: '48px', paddingTop: '24px', display: 'flex', justifyContent: 'center' }}>
-        <div style={{ fontSize: '10px', color: '#52525b', fontFamily: 'var(--font-mono)' }}>
-          system: backend @ {import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'}
-        </div>
+      <footer className="app__footer">
+        <span>backend @ {import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'}</span>
       </footer>
     </div>
   )
