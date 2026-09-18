@@ -12,3 +12,6 @@ frontend/.env.local
 .DS_Store
 *.log
 .env
+
+# Agent Instructions
+AGENT_INSTRUCTIONS.md
