@@ -116,12 +116,16 @@ body {
   justify-content: space-between;
   align-items: flex-start;
   gap: 8px;
+  min-width: 0;
 }
 
 .window-card__header h2 {
   margin: 0;
   font-size: 18px;
   font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .window-card__id {
@@ -181,7 +185,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  max-height: 160px;
+  height: 160px;
   overflow-y: auto;
 }
 
