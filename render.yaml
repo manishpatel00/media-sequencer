@@ -13,15 +13,11 @@ services:
     plan: free
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
-    disk:
-      name: media-sequencer-data
-      mountPath: /app/data
-      sizeGB: 1
     envVars:
       - key: PORT
         value: "8080"
       - key: DB_PATH
-        value: /app/data/sequencer.db
+        value: /app/sequencer.db
       - key: ALLOWED_ORIGIN
         sync: false
       - key: SEED_ON_EMPTY
