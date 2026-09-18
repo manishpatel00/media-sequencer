@@ -1,0 +1,39 @@
+# Brings up the full stack locally with one command:
+#   docker compose up --build
+#
+# Frontend:  http://localhost:5173
+# Backend:   http://localhost:8080
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8080:8080"
+    environment:
+      PORT: "8080"
+      DB_PATH: "/app/data/sequencer.db"
+      ALLOWED_ORIGIN: "*"
+      SEED_ON_EMPTY: "true"
+      SYNC_LEAD_SECONDS: "2"
+      DEFAULT_SYNC_DURATION_SECONDS: "10"
+    volumes:
+      # Persists the SQLite file across `docker compose down`/`up` cycles.
+      - backend-data:/app/data
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # In the compose network, the browser (not the container) talks to
+        # the backend, so this must be an address reachable from the host,
+        # not the internal service name "backend".
+        VITE_API_BASE_URL: "http://localhost:8080"
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  backend-data:
