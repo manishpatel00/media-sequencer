@@ -91,35 +91,112 @@ export default function MediaWindow({ win, serverOffsetMs, syncState, onRemoveMe
 }
 
 function MediaStage({ item }) {
+  const [status, setStatus] = useState('loading') // 'loading', 'ready', 'error'
+  const [retryCount, setRetryCount] = useState(0)
+
+  // Reset state when a new item URL comes in
+  useEffect(() => {
+    setStatus('loading')
+    setRetryCount(0)
+  }, [item?.url])
+
+  const getHost = (url) => {
+    try { return new URL(url).hostname } catch (e) { return 'unknown host' }
+  }
+
   if (!item) {
     return <div className="stage stage--blank">No playable media</div>
   }
   if (item.type === 'blank') {
     return <div className="stage stage--blank">(blank)</div>
   }
+
+  const handleError = () => {
+    if (item.type === 'video' && retryCount === 0) {
+      setTimeout(() => {
+        setRetryCount(1)
+        setStatus('loading')
+      }, 8000)
+    } else {
+      setStatus('error')
+    }
+  }
+
+  const handleLoad = () => {
+    setStatus('ready')
+  }
+
+  const renderFallback = () => {
+    if (status === 'loading') {
+      return (
+        <div className="stage stage--loading">
+          <div className="skeleton-pulse"></div>
+        </div>
+      )
+    }
+    if (status === 'error') {
+      return (
+        <div className="stage stage--error">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: '8px' }}>
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <span>Couldn't load this {item.type}</span>
+          <span className="error-host">{getHost(item.url)}</span>
+        </div>
+      )
+    }
+    return null
+  }
+
   if (item.type === 'image') {
     return (
       <div className="stage">
-        <img src={item.url} alt="" className="stage__media" />
-      </div>
-    )
-  }
-  if (item.type === 'video') {
-    return (
-      <div className="stage">
-        {/* key=url forces the <video> element to remount (and therefore
-            restart) whenever the active item changes to a different URL. */}
-        <video
-          key={item.url}
-          src={item.url}
-          className="stage__media"
-          autoPlay
-          muted
-          loop
-          playsInline
+        {renderFallback()}
+        <img 
+          src={item.url} 
+          alt="" 
+          className="stage__media" 
+          style={{ opacity: status === 'ready' ? 1 : 0 }}
+          onLoad={handleLoad}
+          onError={handleError}
         />
       </div>
     )
   }
+
+  if (item.type === 'video') {
+    const isEmbed = item.url.includes('youtube-nocookie.com/embed') || item.url.includes('player.vimeo.com')
+    return (
+      <div className="stage">
+        {renderFallback()}
+        {isEmbed ? (
+          <iframe
+            key={item.url}
+            src={item.url}
+            className="stage__media"
+            style={{ opacity: status === 'ready' ? 1 : 0, border: 'none' }}
+            allow="autoplay; fullscreen; encrypted-media"
+            onLoad={handleLoad}
+          />
+        ) : (
+          <video
+            key={`${item.url}-${retryCount}`}
+            src={item.url}
+            className="stage__media"
+            style={{ opacity: status === 'ready' ? 1 : 0 }}
+            autoPlay
+            muted
+            loop
+            playsInline
+            onLoadedData={handleLoad}
+            onError={handleError}
+          />
+        )}
+      </div>
+    )
+  }
+
   return <div className="stage stage--blank">Unsupported media type</div>
 }
