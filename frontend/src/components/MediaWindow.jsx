@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { resolvePlayback } from '../sequencer.js'
 
 function formatSeconds(ms) {
@@ -18,6 +18,26 @@ function formatSeconds(ms) {
  */
 export default function MediaWindow({ win, serverOffsetMs, syncState, onRemoveMedia }) {
   const [current, setCurrent] = useState(null)
+  // Keep references to preloaded Image objects so they aren't GC'd
+  const preloadedImgs = useRef({})
+
+  // Preload all image-type items in the playlist whenever the playlist changes.
+  // This ensures images are already in the browser cache when their slot arrives.
+  useEffect(() => {
+    const cache = preloadedImgs.current
+    win.playlist.forEach((item) => {
+      if (item.type === 'image' && item.url && !cache[item.url]) {
+        const img = new Image()
+        img.src = item.url
+        cache[item.url] = img
+      }
+    })
+    // Clean up URLs that are no longer in the playlist
+    const activeUrls = new Set(win.playlist.map((it) => it.url))
+    Object.keys(cache).forEach((url) => {
+      if (!activeUrls.has(url)) delete cache[url]
+    })
+  }, [win.playlist])
 
   useEffect(() => {
     let timer
@@ -95,11 +115,23 @@ export default function MediaWindow({ win, serverOffsetMs, syncState, onRemoveMe
 function MediaStage({ item }) {
   const [status, setStatus] = useState('loading') // 'loading', 'ready', 'error'
   const [retryCount, setRetryCount] = useState(0)
+  const imgRef = useRef(null)
 
-  // Reset state when a new item URL comes in
+  // Reset state when a new item URL comes in.
+  // For images: check if already cached (naturalWidth > 0) and show instantly.
   useEffect(() => {
-    setStatus('loading')
     setRetryCount(0)
+    if (item?.type === 'image') {
+      // If the img element already has a decoded image (from preload cache),
+      // mark it ready immediately — no visible delay.
+      if (imgRef.current && imgRef.current.complete && imgRef.current.naturalWidth > 0) {
+        setStatus('ready')
+      } else {
+        setStatus('loading')
+      }
+    } else {
+      setStatus('loading')
+    }
   }, [item?.url])
 
   const getHost = (url) => {
@@ -156,10 +188,11 @@ function MediaStage({ item }) {
     return (
       <div className="stage">
         {renderFallback()}
-        <img 
-          src={item.url} 
-          alt="" 
-          className="stage__media" 
+        <img
+          ref={imgRef}
+          src={item.url}
+          alt=""
+          className="stage__media"
           style={{ opacity: status === 'ready' ? 1 : 0 }}
           onLoad={handleLoad}
           onError={handleError}
